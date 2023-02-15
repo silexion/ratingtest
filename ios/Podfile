@@ -3,28 +3,28 @@
 
 target 'Runner' do
   # Comment the next line if you don't want to use dynamic frameworks
-  use_frameworks!
-
+    use_frameworks!
+    #flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
   # Pods for Runner
 
 end
 
 post_install do |installer|
-
-  puts 'Determining pod project minimal deployment target'
-
-  pods_project = installer.pods_project
-  deployment_target_key = 'IPHONEOS_DEPLOYMENT_TARGET'
-  deployment_targets = pods_project.build_configurations.map{ |config| config.build_settings[deployment_target_key] }
-  minimal_deployment_target = deployment_targets.min_by{ |version| Gem::Version.new(version) }
-
-  puts 'Minimal deployment target is ' + minimal_deployment_target
-  puts 'Setting each pod deployment target to ' + minimal_deployment_target
+  # add these lines:
+  installer.pods_project.build_configurations.each do |config|
+    config.build_settings["EXCLUDED_ARCHS[sdk=*]"] = "armv7"
+    config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = $iOSVersion
+  end
 
   installer.pods_project.targets.each do |target|
+    #flutter_additional_ios_build_settings(target)
+
+    # add these lines:
     target.build_configurations.each do |config|
-      config.build_settings[deployment_target_key] = minimal_deployment_target
-      config.build_settings['SWIFT_VERSION'] = '5.0'
+      if Gem::Version.new($iOSVersion) > Gem::Version.new(config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'])
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = $iOSVersion
+      end
     end
+
   end
 end
