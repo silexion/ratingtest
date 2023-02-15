@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 void main() {
   runApp(const MyApp());
@@ -41,18 +40,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
               'You have pushed the button this many times:',
             ),
             Text(
-              '$_counter',
+              'hello',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
           ],
@@ -81,11 +68,11 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          String barcode = await FlutterBarcodeScanner.scanBarcode(
+          /*String barcode = await FlutterBarcodeScanner.scanBarcode(
               "#000000",
               "Mégse",
               true,
-              ScanMode.DEFAULT );
+              ScanMode.DEFAULT );*/
         },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
